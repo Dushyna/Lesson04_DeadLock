@@ -17,7 +17,7 @@ public class BankDeadLockAppl {
         t2.start();
         t1.join();
         t2.join();
-        System.out.println("dad" + dad.getAccNumber() + " " + dad.getBalance());
-        System.out.println("son" + son.getAccNumber() + " " + son.getBalance());
+        System.out.println("dad " + dad.getAccNumber() + " " + dad.getBalance());
+        System.out.println("son " + son.getAccNumber() + " " + son.getBalance());
     }
 }
