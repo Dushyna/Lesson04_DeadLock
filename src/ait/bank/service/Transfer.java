@@ -15,18 +15,27 @@ public class Transfer implements Runnable {
 
     @Override
     public void run() {
-        synchronized (accountFrom) {
+        Account firstLock = accountFrom.getAccNumber() > accountTo.getAccNumber()  ? accountTo : accountFrom;
+        Account secondtLock = accountFrom.getAccNumber() > accountTo.getAccNumber()  ? accountFrom : accountTo;
+        firstLock.lock();
+
             try {
                 Thread.sleep(1000);
+                secondtLock.lock();
+                try {
+                    if (accountFrom.getBalance() >= amount) {
+                        accountFrom.credit(amount);
+                        accountTo.debit(amount);
+                    }
+                } finally {
+                    secondtLock.unlock();
+                }
+
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
+            } finally {
+                firstLock.unlock();
             }
-            synchronized (accountTo) {
-                if (accountFrom.getBalance() >= amount) {
-                    accountFrom.credit(amount);
-                    accountTo.debit(amount);
-                }
+
             }
-        }
-    }
 }

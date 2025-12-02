@@ -1,8 +1,11 @@
 package ait.bank.model;
 
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Account {
+    private final Lock mutex = new ReentrantLock();
     private final int accNumber;
     private int balance;
 
@@ -24,6 +27,14 @@ public class Account {
 
     public void credit(int amount) {
         balance = balance - amount;
+    }
+
+    public void lock(){
+        mutex.lock();
+    }
+
+    public void unlock(){
+        mutex.unlock();
     }
 
     @Override
