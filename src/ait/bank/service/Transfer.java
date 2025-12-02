@@ -37,7 +37,7 @@ public class Transfer implements Runnable {
             synchronized (lock1) {
                 if (accountFrom.getBalance() >= amount) {
                     accountFrom.credit(amount);
-                    accountTo.debit(amount);
+                    accountTo. debit(amount);
                 }
             }
         }
