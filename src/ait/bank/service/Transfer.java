@@ -23,15 +23,9 @@ public class Transfer implements Runnable {
         if (accountFrom.getAccNumber() > accountTo.getAccNumber()) {
             lock1 = accountFrom;
             lock2 = accountTo;
-        } else if (accountFrom.getAccNumber() < accountTo.getAccNumber()) {
+        } else  {
             lock2 = accountFrom;
             lock1 = accountTo;
-        } else {
-            if (accountFrom.getBalance() >= amount) {
-                accountFrom.credit(amount);
-                accountTo.debit(amount);
-            }
-            return;
         }
 
         synchronized (lock2) {
