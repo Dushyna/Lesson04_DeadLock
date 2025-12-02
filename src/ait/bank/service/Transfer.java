@@ -3,6 +3,7 @@ package ait.bank.service;
 import ait.bank.model.Account;
 
 public class Transfer implements Runnable {
+    private static Object mutex = new Object();
     private final Account accountFrom;
     private final Account accountTo;
     private final int amount;
@@ -17,29 +18,17 @@ public class Transfer implements Runnable {
     @Override
     public void run() {
 
-        Account lock1;
-        Account lock2;
-
-        if (accountFrom.getAccNumber() > accountTo.getAccNumber()) {
-            lock1 = accountFrom;
-            lock2 = accountTo;
-        } else  {
-            lock2 = accountFrom;
-            lock1 = accountTo;
-        }
-
-        synchronized (lock2) {
+        synchronized (mutex) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            synchronized (lock1) {
                 if (accountFrom.getBalance() >= amount) {
                     accountFrom.credit(amount);
                     accountTo. debit(amount);
                 }
-            }
+
         }
     }
 }
